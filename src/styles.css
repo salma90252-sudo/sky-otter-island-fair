@@ -1,0 +1,210 @@
+@import "@fontsource/ibm-plex-sans-arabic/400.css";
+@import "@fontsource/ibm-plex-sans-arabic/500.css";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans Arabic", "DejaVu Sans", "Segoe UI", tahoma, sans-serif;
+
+  --color-canvas: #f3f1ec;
+  --color-surface: #f7f6f2;
+  --color-elevated: #fcfbf8;
+  --color-ink: #1c1b18;
+  --color-muted: #6f685f;
+  --color-faint: #978f84;
+  --color-line: #e3dfd6;
+  --color-accent: #1c1b18;
+  --color-accent-fg: #f3f1ec;
+  --color-accent-soft: #e8e4db;
+  --color-danger: #6e2f2f;
+  --color-danger-fg: #faf6f4;
+  --color-done: #21573c;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2 {
+    line-height: 1.2;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.press {
+  transition: transform 80ms var(--ease-smooth);
+}
+
+.press:active {
+  transform: scale(0.98);
+}
+
+.motion-width {
+  transition: width 250ms var(--ease-smooth);
+}
+
+.center-pop {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 60;
+  width: min(100% - 2rem, 24rem);
+  transform: translate(-50%, -50%);
+}
+
+.drawer-overlay[data-state="open"],
+.modal-overlay[data-state="open"] {
+  animation: fade-in 250ms var(--ease-smooth) both;
+}
+
+.drawer-overlay[data-state="closed"],
+.modal-overlay[data-state="closed"] {
+  animation: fade-out 150ms var(--ease-smooth) both;
+}
+
+.drawer-panel[data-state="open"] {
+  animation: drawer-in 400ms var(--ease-smooth) both;
+}
+
+.drawer-panel[data-state="closed"] {
+  animation: drawer-out 150ms var(--ease-smooth) both;
+}
+
+.center-pop[data-state="open"] {
+  animation: pop-in 250ms var(--ease-smooth) both;
+}
+
+.center-pop[data-state="closed"] {
+  animation: pop-out 150ms var(--ease-smooth) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drawer-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes pop-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press,
+  .motion-width {
+    transition: none;
+  }
+
+  .press:active {
+    transform: none;
+  }
+
+  .drawer-overlay,
+  .drawer-panel,
+  .modal-overlay,
+  .center-pop {
+    animation: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .drag-handle {
+    display: none;
+  }
+}
